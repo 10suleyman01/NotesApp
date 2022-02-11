@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NotesApp</string>
+    <string name="task">Задачи</string>
+    <string name="notes">Заметки</string>
+    <string name="profile">Профиль</string>
+    <string name="you_not_have_notes_yet">У вас еще нет заметок!</string>
+</resources>
