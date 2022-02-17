@@ -4,11 +4,11 @@ import com.suleyman.notesapp.domain.repository.NotesRepository
 import com.suleyman.notesapp.other.ListNotes
 
 class GetListNotesUseCase(
-    private val repository: NotesRepository
+    private val notesRepository: NotesRepository
 ) {
 
     suspend fun execute(): ListNotes {
-        return repository.notes()
+        return notesRepository.notes()
     }
 
 }

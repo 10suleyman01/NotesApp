@@ -6,12 +6,12 @@ import org.koin.dsl.module
 
 val useCasesModule = module {
 
-    single<CreateAndSaveNoteUseCase> {
-        CreateAndSaveNoteUseCase(repository = get())
+    single {
+        CreateAndSaveNoteUseCase(notesRepository = get())
     }
 
-    single<GetListNotesUseCase> {
-        GetListNotesUseCase(repository = get())
+    single {
+        GetListNotesUseCase(notesRepository = get())
     }
 
 }

@@ -4,12 +4,12 @@ import com.suleyman.notesapp.domain.repository.NotesRepository
 import com.suleyman.notesapp.domain.entity.NoteEntity
 
 class CreateAndSaveNoteUseCase(
-    private val repository: NotesRepository
+    private val notesRepository: NotesRepository
 ) {
 
     suspend fun execute(note: NoteEntity) {
 
-        repository.insert(
+        notesRepository.insert(
             noteModel = note
         )
     }

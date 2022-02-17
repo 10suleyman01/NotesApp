@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navOptions
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentCreateNoteBinding
 import com.suleyman.notesapp.domain.entity.NoteEntity
@@ -87,7 +86,7 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
 
                         val noteBundle = bundleOf(NOTE to note)
                         setFragmentResult(RESULT_NOTE_KEY, noteBundle)
-                        saveAndBack(note)
+                        saveAndBack()
                     }
 
                     return true
@@ -104,7 +103,7 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
                         val note = NoteEntity(0, title, text, System.currentTimeMillis(), false)
                         val noteBundle = bundleOf(NOTE to note)
                         setFragmentResult(RESULT_NOTE_KEY, noteBundle)
-                        saveAndBack(note)
+                        saveAndBack()
                     }
 
                 }
@@ -117,9 +116,7 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
         return true
     }
 
-    private fun saveAndBack(note: NoteEntity) {
-//        findNavController().popBackStack()
-
+    private fun saveAndBack() {
         val action = CreateNoteFragmentDirections.actionCreateNoteFragmentToNotesFragment()
 
         val navOptions = NavOptions.Builder()

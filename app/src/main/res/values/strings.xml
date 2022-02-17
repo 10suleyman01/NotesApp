@@ -8,4 +8,5 @@
     <string name="et_hint_title">Заголовок</string>
     <string name="save">Сохранить</string>
     <string name="create">Создать заметку</string>
+    <string name="search">Поиск</string>
 </resources>

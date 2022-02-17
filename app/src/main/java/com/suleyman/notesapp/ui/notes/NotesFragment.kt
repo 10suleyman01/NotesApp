@@ -1,14 +1,14 @@
 package com.suleyman.notesapp.ui.notes
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentListBinding
@@ -27,6 +27,11 @@ class NotesFragment : Fragment(R.layout.fragment_list) {
     private lateinit var adapter: NotesAdapter
 
     private val viewModel: NoteViewModel by viewModel()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,8 +70,6 @@ class NotesFragment : Fragment(R.layout.fragment_list) {
                 when (event) {
 
                     is NoteViewModel.NotesEvent.NewNote -> {
-                        val note = event.note
-
                         viewModel.notes()
                     }
 
@@ -85,6 +88,12 @@ class NotesFragment : Fragment(R.layout.fragment_list) {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.menu_notes, menu)
     }
 
     private fun setAdapterClickListener(adapter: NotesAdapter) {
