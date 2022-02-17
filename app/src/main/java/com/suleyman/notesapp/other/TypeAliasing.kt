@@ -1,6 +1,8 @@
 package com.suleyman.notesapp.other
 
-import com.suleyman.notesapp.model.NoteModel
+import com.suleyman.notesapp.domain.entity.NoteEntity
 
-typealias ListNotes = List<NoteModel>
-typealias MutListNotes = MutableList<NoteModel>
+typealias ListNotes = List<NoteEntity>
+typealias MutListNotes = MutableList<NoteEntity>
+
+typealias Type = DateFormatter.FormatType

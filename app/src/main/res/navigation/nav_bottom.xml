@@ -7,7 +7,12 @@
     <fragment
         android:id="@+id/notesFragment"
         android:name="com.suleyman.notesapp.ui.notes.NotesFragment"
-        android:label="NotesFragment" >
+        android:label="@string/notes" >
+        <argument
+            android:name="note"
+            app:argType="com.suleyman.notesapp.domain.entity.NoteEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_notesFragment_to_createNoteFragment"
             app:destination="@id/createNoteFragment" />
@@ -15,9 +20,22 @@
     <fragment
         android:id="@+id/createNoteFragment"
         android:name="com.suleyman.notesapp.ui.create_note.CreateNoteFragment"
-        android:label="CreateNoteFragment" >
+        android:label="@string/create" >
+        <argument
+            app:argType="com.suleyman.notesapp.domain.entity.NoteEntity"
+            app:nullable="true"
+            android:name="note"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_createNoteFragment_to_notesFragment"
             app:destination="@id/notesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.suleyman.notesapp.ui.tasks.TasksFragment"
+        android:label="@string/tasks" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.suleyman.notesapp.ui.profile.ProfileFragment"
+        android:label="@string/profile" />
 </navigation>

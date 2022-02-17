@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/activity_main.xml" value="0.18" />
-        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_list.xml" value="0.2630208333333333" />
-        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/note_item.xml" value="0.33" />
-        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/toolbar.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_baseline_done_24.xml" value="0.1415" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/shadow.xml" value="0.2365" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_create_note.xml" value="0.25" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_list.xml" value="0.22" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_profile.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/note_item.xml" value="0.5" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/layout/toolbar.xml" value="0.5905947441217151" />
         <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.34479166666666666" />
+        <entry key="..\:/Users/suleyman/AndroidStudioProjects/NotesApp/app/src/main/res/menu/menu_create_note.xml" value="0.34479166666666666" />
       </map>
     </option>
   </component>

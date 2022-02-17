@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">NotesApp</string>
-    <string name="task">Задачи</string>
+    <string name="tasks">Задачи</string>
     <string name="notes">Заметки</string>
     <string name="profile">Профиль</string>
     <string name="you_not_have_notes_yet">У вас еще нет заметок!</string>
+    <string name="et_hint_text">Текст</string>
+    <string name="et_hint_title">Заголовок</string>
+    <string name="save">Сохранить</string>
+    <string name="create">Создать заметку</string>
 </resources>

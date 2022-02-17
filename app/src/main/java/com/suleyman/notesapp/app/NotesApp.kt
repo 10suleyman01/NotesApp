@@ -1,7 +1,21 @@
 package com.suleyman.notesapp.app
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.suleyman.notesapp.di.viewModelModule
+import com.suleyman.notesapp.di.databaseModule
+import com.suleyman.notesapp.di.useCasesModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
-@HiltAndroidApp
-class NotesApp: Application()
+class NotesApp: Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidContext(this@NotesApp)
+            modules(listOf(databaseModule, useCasesModule, viewModelModule))
+        }
+    }
+
+}

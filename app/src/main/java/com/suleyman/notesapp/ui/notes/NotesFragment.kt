@@ -2,30 +2,98 @@ package com.suleyman.notesapp.ui.notes
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentListBinding
+import com.suleyman.notesapp.domain.entity.NoteEntity
+import com.suleyman.notesapp.other.OnNoteClickListener
+import com.suleyman.notesapp.ui.create_note.RESULT_NOTE_KEY
 import com.suleyman.notesapp.ui.notes.adapter.NotesAdapter
-import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-@AndroidEntryPoint
 class NotesFragment : Fragment(R.layout.fragment_list) {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var adapter: NotesAdapter
+
+    private val viewModel: NoteViewModel by viewModel()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentListBinding.bind(view)
         adapter = NotesAdapter()
+        setAdapterClickListener(adapter)
 
-        with(binding) {
-            rvItems.setHasFixedSize(true)
+        binding.apply {
             rvItems.layoutManager = LinearLayoutManager(requireContext())
+            rvItems.setHasFixedSize(true)
             rvItems.adapter = adapter
+
+            fabNewNote.setOnClickListener {
+
+                val action = NotesFragmentDirections.actionNotesFragmentToCreateNoteFragment()
+
+                findNavController().navigate(action)
+            }
+        }
+
+        viewModel.notes()
+
+        setFragmentResultListener(RESULT_NOTE_KEY) { requestKey, bundle ->
+            val note = bundle["note"] as NoteEntity ?: null
+            lifecycleScope.launch {
+                if (requestKey == RESULT_NOTE_KEY && note != null) {
+                    viewModel.save(note)
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.states.collectLatest { event ->
+                when (event) {
+
+                    is NoteViewModel.NotesEvent.NewNote -> {
+                        val note = event.note
+
+                        viewModel.notes()
+                    }
+
+                    is NoteViewModel.NotesEvent.Loading -> {
+                        binding.pbLoading.isVisible = event.isLoading
+                    }
+
+                    is NoteViewModel.NotesEvent.GetNotes -> {
+                        val notes = event.notes
+
+                        binding.tvInfo.isVisible = notes.isEmpty()
+                        adapter.setNotes(notes)
+                    }
+
+                    else -> NoteViewModel.NotesEvent.None
+                }
+            }
+        }
+    }
+
+    private fun setAdapterClickListener(adapter: NotesAdapter) {
+        adapter.listener = object : OnNoteClickListener {
+            override fun onNoteClick(note: NoteEntity) {
+                val action = NotesFragmentDirections.actionNotesFragmentToCreateNoteFragment(note)
+
+                findNavController().navigate(action)
+            }
         }
     }
 
