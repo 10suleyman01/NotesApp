@@ -8,8 +8,7 @@ val viewModelModule = module {
 
     viewModel {
         NoteViewModel(
-            createAndSaveNoteUseCase = get(),
-            getListNotesUseCase = get()
+            useCases = get()
         )
     }
 

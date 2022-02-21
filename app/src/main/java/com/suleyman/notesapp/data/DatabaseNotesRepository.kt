@@ -12,11 +12,15 @@ class DatabaseNotesRepository(
         return dao.notes()
     }
 
-    override suspend fun insert(note: NoteEntity) {
-        dao.insert(note)
+    override suspend fun insert(noteModel: NoteEntity) {
+        dao.insert(noteModel)
     }
 
-    override suspend fun delete(note: NoteEntity) {
-        dao.delete(note)
+    override suspend fun search(title: String): ListNotes {
+        return dao.searchNotesByTitle(title)
+    }
+
+    override suspend fun delete(noteModel: NoteEntity) {
+        dao.delete(noteModel)
     }
 }

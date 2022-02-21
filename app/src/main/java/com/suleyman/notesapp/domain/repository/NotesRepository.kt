@@ -8,5 +8,7 @@ interface NotesRepository {
 
     suspend fun insert(noteModel: NoteEntity)
 
+    suspend fun search(title: String): ListNotes
+
     suspend fun delete(noteModel: NoteEntity)
 }

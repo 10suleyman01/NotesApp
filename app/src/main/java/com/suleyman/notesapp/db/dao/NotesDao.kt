@@ -9,6 +9,9 @@ interface NotesDao {
     @Query("SELECT * FROM notes")
     suspend fun notes(): ListNotes
 
+    @Query("SELECT * FROM notes WHERE title LIKE :title")
+    suspend fun searchNotesByTitle(title: String): ListNotes
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(noteEntity: NoteEntity)
 

@@ -2,7 +2,6 @@ package com.suleyman.notesapp.other
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
-import java.util.*
 
 object DateFormatter {
 

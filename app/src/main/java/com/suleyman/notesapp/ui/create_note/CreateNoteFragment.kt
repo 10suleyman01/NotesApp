@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -16,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentCreateNoteBinding
 import com.suleyman.notesapp.domain.entity.NoteEntity
+import com.suleyman.notesapp.other.text
 import com.suleyman.notesapp.ui.MainActivity
 import com.suleyman.notesapp.ui.notes.NotesFragmentArgs
 import kotlinx.coroutines.launch
@@ -33,8 +33,6 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,9 +48,6 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
 
         if (note != null) {
             isEditNoteMode = true
-
-            Toast.makeText(requireContext(), "Edit Mode", Toast.LENGTH_SHORT).show()
-
             setNoteFields(note)
         }
     }
@@ -75,34 +70,26 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
 
                 if (isEditNoteMode) {
 
-                    Toast.makeText(requireContext(), "Saved in Edit Mode", Toast.LENGTH_SHORT)
-                        .show()
-
                     val note = args.note
 
                     note?.let {
-                        note.title = binding.etTitle.text.toString()
-                        note.text = binding.etText.text.toString()
-
-                        val noteBundle = bundleOf(NOTE to note)
-                        setFragmentResult(RESULT_NOTE_KEY, noteBundle)
+                        note.title = binding.etTitle.text()
+                        note.text = binding.etText.text()
+                        setNoteResult(note)
                         saveAndBack()
                     }
 
                     return true
                 }
 
-                Toast.makeText(requireContext(), "Not Edit Mode", Toast.LENGTH_SHORT).show()
-
                 lifecycleScope.launch {
 
-                    val title = binding.etTitle.text.toString()
-                    val text = binding.etText.text.toString()
+                    val title = binding.etTitle.text()
+                    val text = binding.etText.text()
 
                     if (title.isNotEmpty() && text.isNotEmpty()) {
                         val note = NoteEntity(0, title, text, System.currentTimeMillis(), false)
-                        val noteBundle = bundleOf(NOTE to note)
-                        setFragmentResult(RESULT_NOTE_KEY, noteBundle)
+                        setNoteResult(note)
                         saveAndBack()
                     }
 
@@ -114,6 +101,11 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
             }
         }
         return true
+    }
+
+    private fun setNoteResult(note: NoteEntity) {
+        val noteBundle = bundleOf(NOTE to note)
+        setFragmentResult(RESULT_NOTE_KEY, noteBundle)
     }
 
     private fun saveAndBack() {

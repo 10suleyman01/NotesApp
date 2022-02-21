@@ -7,7 +7,7 @@ import com.suleyman.notesapp.domain.entity.NoteEntity
 
 const val DATABASE_NAME = "notes_database"
 
-@Database(entities = [NoteEntity::class], version = 1)
+@Database(entities = [NoteEntity::class], version = 1, exportSchema = true)
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun notesDao(): NotesDao
 }
