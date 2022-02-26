@@ -1,7 +1,9 @@
 package com.suleyman.notesapp.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -32,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getToolbar() = binding.include.toolbar
+    fun getToolbar(): Toolbar {
+        return binding.include.toolbar
+    }
 
     override fun onDestroy() {
         super.onDestroy()

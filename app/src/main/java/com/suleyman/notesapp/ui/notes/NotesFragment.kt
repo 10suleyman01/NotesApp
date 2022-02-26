@@ -1,18 +1,22 @@
 package com.suleyman.notesapp.ui.notes
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentListBinding
 import com.suleyman.notesapp.domain.entity.NoteEntity
@@ -20,27 +24,44 @@ import com.suleyman.notesapp.other.OnNoteClickListener
 import com.suleyman.notesapp.ui.MainActivity
 import com.suleyman.notesapp.ui.create_note.RESULT_NOTE_KEY
 import com.suleyman.notesapp.ui.notes.adapter.NotesAdapter
+import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemDetailLookup
+import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemKeyProvider
+import com.suleyman.notesapp.ui.notes.adapter.selection.NotesSelectionObserver
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+private const val SELECTION_ID = "notes_selection_id"
 
-class NotesFragment : Fragment(R.layout.fragment_list), SearchView.OnQueryTextListener {
+class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    private lateinit var binding: FragmentListBinding
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: NotesAdapter
 
     private val viewModel: NoteViewModel by viewModel()
+
+    private var tracker: SelectionTracker<NoteEntity>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        _binding = FragmentListBinding.inflate(inflater)
+
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentListBinding.bind(view)
         adapter = NotesAdapter()
         setAdapterClickListener(adapter)
 
@@ -84,10 +105,31 @@ class NotesFragment : Fragment(R.layout.fragment_list), SearchView.OnQueryTextLi
                         adapter.setNotes(notes)
                     }
 
+                    is NoteViewModel.NotesEvent.Deleted -> {
+                        viewModel.notes()
+                    }
+
                     else -> NoteViewModel.NotesEvent.None
                 }
             }
         }
+
+        initSelectionTracker(binding.rvItems)
+    }
+
+    private fun initSelectionTracker(rvItems: RecyclerView) {
+        tracker = SelectionTracker.Builder(
+            SELECTION_ID,
+            rvItems,
+            NoteItemKeyProvider(adapter),
+            NoteItemDetailLookup(rvItems),
+            StorageStrategy.createParcelableStorage(NoteEntity::class.java),
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        ).build()
+
+        tracker?.addObserver(NotesSelectionObserver(tracker, (activity as MainActivity)))
+        adapter.tracker = tracker
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -101,10 +143,11 @@ class NotesFragment : Fragment(R.layout.fragment_list), SearchView.OnQueryTextLi
         searchView.setOnQueryTextListener(this)
 
         searchView.setOnSearchClickListener {
-
+            // TODO 1 NOT IMPLEMENTED
         }
 
         searchView.setOnCloseListener {
+            // TODO 2 NOT IMPLEMENTED
             false
         }
     }
@@ -123,6 +166,18 @@ class NotesFragment : Fragment(R.layout.fragment_list), SearchView.OnQueryTextLi
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.deleteNote -> {
+                tracker?.let {
+                    val iterator = it.selection.toMutableList().iterator()
+                    while (iterator.hasNext()) {
+                        val noteModel = iterator.next()
+                        viewModel.delete(noteModel)
+                        iterator.remove()
+                        tracker?.clearSelection()
+                    }
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

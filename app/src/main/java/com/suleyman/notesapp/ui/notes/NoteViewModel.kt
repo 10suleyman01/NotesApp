@@ -25,6 +25,7 @@ class NoteViewModel(
 
     fun delete(note: NoteEntity) = loadingEvent {
         useCases.deleteNoteUseCase.execute(note)
+        _states.value = NotesEvent.Deleted
     }
 
     fun search(title: String) = loadingEvent {
@@ -53,6 +54,7 @@ class NoteViewModel(
 
     sealed class NotesEvent {
         object None : NotesEvent()
+        object Deleted : NotesEvent()
         data class Loading(val isLoading: Boolean) : NotesEvent()
         data class GetNotes(val notes: ListNotes) : NotesEvent()
         data class NewNote(val note: NoteEntity) : NotesEvent()

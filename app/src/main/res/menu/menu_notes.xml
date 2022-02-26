@@ -2,10 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/searchView"
+    <item
+        android:id="@+id/searchView"
         android:icon="@drawable/ic_round_search_24"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView"
-        android:title="@string/search" />
+        app:showAsAction="always|collapseActionView" />
+
+    <item
+        android:id="@+id/deleteNote"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
 
 </menu>
