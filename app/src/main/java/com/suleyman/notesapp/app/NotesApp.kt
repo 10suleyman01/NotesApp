@@ -3,6 +3,7 @@ package com.suleyman.notesapp.app
 import android.app.Application
 import com.suleyman.notesapp.di.viewModelModule
 import com.suleyman.notesapp.di.databaseModule
+import com.suleyman.notesapp.di.firebaseModule
 import com.suleyman.notesapp.di.useCasesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -14,7 +15,7 @@ class NotesApp: Application() {
 
         startKoin {
             androidContext(this@NotesApp)
-            modules(listOf(databaseModule, useCasesModule, viewModelModule))
+            modules(listOf(databaseModule, useCasesModule, viewModelModule, firebaseModule))
         }
     }
 

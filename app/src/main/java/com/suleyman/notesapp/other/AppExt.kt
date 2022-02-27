@@ -10,3 +10,7 @@ import com.suleyman.notesapp.ui.MainActivity
 fun AppCompatEditText.text(): String {
     return text.toString()
 }
+
+fun Fragment.requireToolbar(): Toolbar {
+    return (activity as MainActivity).getToolbar()
+}

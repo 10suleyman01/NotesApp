@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "537841148412",
+    "firebase_url": "https://notesapplication-bb5f3-default-rtdb.firebaseio.com",
+    "project_id": "notesapplication-bb5f3",
+    "storage_bucket": "notesapplication-bb5f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537841148412:android:03ea7827c0224456cbd279",
+        "android_client_info": {
+          "package_name": "com.suleyman.notesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537841148412-5egh8hql2tuefk16dhh3cdblt4pbm1ic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4sXTLnI205Vp8c1LuJy50edias47bBkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537841148412-5egh8hql2tuefk16dhh3cdblt4pbm1ic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -22,6 +22,7 @@ import com.suleyman.notesapp.databinding.FragmentListBinding
 import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.other.OnNoteClickListener
 import com.suleyman.notesapp.ui.MainActivity
+import com.suleyman.notesapp.ui.create_note.NOTE
 import com.suleyman.notesapp.ui.create_note.RESULT_NOTE_KEY
 import com.suleyman.notesapp.ui.notes.adapter.NotesAdapter
 import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemDetailLookup
@@ -79,7 +80,7 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.notes()
 
         setFragmentResultListener(RESULT_NOTE_KEY) { requestKey, bundle ->
-            val note = bundle["note"] as NoteEntity
+            val note = bundle[NOTE] as NoteEntity
             lifecycleScope.launch {
                 if (requestKey == RESULT_NOTE_KEY) {
                     viewModel.save(note)
