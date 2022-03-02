@@ -38,7 +38,7 @@ class NoteViewModel(
     }
 
     private fun loadNotes() = viewModelScope.launch {
-        val notes = useCases.getListNotesUseCase.execute()
+        val notes = useCases.getListNotesUseCase.execute(isLocal = true)
         _states.value = NotesEvent.GetNotes(notes)
     }
 

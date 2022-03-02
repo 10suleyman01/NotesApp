@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NotesApp</string>
-    <string name="client_id">537841148412-793bl7e1bf4h1a01ckiaeaujm05buj2h.apps.googleusercontent.com</string>
+    <string name="client_id">537841148412-gq7dkl3dsro81h33a8turml5gl2v5qu5.apps.googleusercontent.com</string>
     <string name="tasks">Задачи</string>
     <string name="notes">Заметки</string>
     <string name="profile">Профиль</string>

@@ -1,5 +1,6 @@
 package com.suleyman.notesapp.other
 
+import android.util.Log
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -13,4 +14,8 @@ fun AppCompatEditText.text(): String {
 
 fun Fragment.requireToolbar(): Toolbar {
     return (activity as MainActivity).getToolbar()
+}
+
+fun logDebug(msg: String) {
+    Log.d("DEBUGER", msg)
 }

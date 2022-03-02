@@ -38,11 +38,11 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: NotesAdapter
 
     private val viewModel: NoteViewModel by viewModel()
-
     private var tracker: SelectionTracker<NoteEntity>? = null
+
+    private lateinit var adapter: NotesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
