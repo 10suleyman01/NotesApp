@@ -38,6 +38,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
         }
     }
 
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.btnAuth -> {
+
+            }
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -53,14 +60,4 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
         }
         return true
     }
-
-    override fun onClick(view: View) {
-        when (view.id) {
-            R.id.btnAuth -> {
-
-            }
-        }
-    }
-
-
 }

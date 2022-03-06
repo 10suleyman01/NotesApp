@@ -12,6 +12,10 @@ fun AppCompatEditText.text(): String {
     return text.toString()
 }
 
+fun AppCompatEditText.clearText() {
+    setText("")
+}
+
 fun Fragment.requireToolbar(): Toolbar {
     return (activity as MainActivity).getToolbar()
 }

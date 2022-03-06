@@ -3,7 +3,7 @@ package com.suleyman.notesapp.ui.notes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.suleyman.notesapp.domain.entity.NoteEntity
-import com.suleyman.notesapp.domain.usecase.*
+import com.suleyman.notesapp.domain.usecase.notes.WrapperUseCases
 import com.suleyman.notesapp.other.ListNotes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

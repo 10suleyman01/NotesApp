@@ -1,15 +1,15 @@
-package com.suleyman.notesapp.domain.usecase
+package com.suleyman.notesapp.domain.usecase.notes
 
 import com.suleyman.notesapp.data.Storage
-import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.repository.NotesRepository
+import com.suleyman.notesapp.domain.entity.NoteEntity
 
-class DeleteNoteUseCase(
+class CreateAndSaveNoteUseCase(
     private val storage: Storage
 ) {
 
     suspend fun execute(note: NoteEntity) {
-        storage.local.delete(note)
+        storage.local.insert(note)
     }
 
 }

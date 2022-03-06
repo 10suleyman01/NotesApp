@@ -71,7 +71,7 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
             rvItems.setHasFixedSize(true)
             rvItems.adapter = adapter
 
-            fabNewNote.setOnClickListener {
+            fabNew.setOnClickListener {
                 val action = NotesFragmentDirections.actionNotesFragmentToCreateNoteFragment()
                 findNavController().navigate(action)
             }

@@ -4,14 +4,16 @@
     <string name="tasks">Задачи</string>
     <string name="notes">Заметки</string>
     <string name="profile">Профиль</string>
-    <string name="you_not_have_notes_yet">У вас еще нет заметок!</string>
+    <string name="you_not_have_notes_yet">Создайте что-нибудь!</string>
     <string name="et_hint_text">Текст</string>
     <string name="et_hint_title">Заголовок</string>
     <string name="save">Сохранить</string>
-    <string name="create">Создать заметку</string>
+    <string name="create">Создать</string>
     <string name="search">Поиск</string>
     <string name="delete">Удалить</string>
     <string name="selected">Выделено</string>
     <string name="auth">Авторизоваться</string>
     <string name="logout">Выйти</string>
+    <string name="you_not_have_tasks_yet">У вас нет активных задач!</string>
+    <string name="input_task_name">Введите имя задачи</string>
 </resources>

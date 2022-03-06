@@ -33,9 +33,31 @@
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.suleyman.notesapp.ui.tasks.TasksFragment"
-        android:label="@string/tasks" />
+        android:label="@string/tasks" >
+        <action
+            android:id="@+id/action_tasksFragment_to_createTaskFragment"
+            app:destination="@id/createTaskFragment" />
+        <argument
+            android:name="task"
+            app:argType="com.suleyman.notesapp.domain.entity.TaskEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.suleyman.notesapp.ui.profile.ProfileFragment"
         android:label="@string/profile" />
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="com.suleyman.notesapp.ui.create_task.CreateTaskFragment"
+        android:label="CreateTaskFragment" >
+        <action
+            android:id="@+id/action_createTaskFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
+        <argument
+            android:name="task"
+            app:argType="com.suleyman.notesapp.domain.entity.TaskEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

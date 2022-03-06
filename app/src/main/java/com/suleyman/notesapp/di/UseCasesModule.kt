@@ -1,6 +1,6 @@
 package com.suleyman.notesapp.di
 
-import com.suleyman.notesapp.domain.usecase.*
+import com.suleyman.notesapp.domain.usecase.notes.*
 import org.koin.dsl.module
 
 val useCasesModule = module {

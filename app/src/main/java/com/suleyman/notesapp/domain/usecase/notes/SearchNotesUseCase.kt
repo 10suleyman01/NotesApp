@@ -1,15 +1,15 @@
-package com.suleyman.notesapp.domain.usecase
+package com.suleyman.notesapp.domain.usecase.notes
 
 import com.suleyman.notesapp.data.Storage
 import com.suleyman.notesapp.domain.repository.NotesRepository
 import com.suleyman.notesapp.other.ListNotes
 
-class GetListNotesUseCase(
+class SearchNotesUseCase(
     private val storage: Storage
 ) {
 
-    suspend fun execute(isLocal: Boolean): ListNotes {
-        return storage.local.notes()
+    suspend fun execute(title: String): ListNotes {
+        return storage.local.search(title)
     }
 
 }
