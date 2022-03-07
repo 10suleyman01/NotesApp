@@ -4,7 +4,7 @@ import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.repository.NotesRepository
 import com.suleyman.notesapp.other.ListNotes
 
-class Storage(
+class StorageNotes(
     val local: DatabaseNotesRepository,
 ): NotesRepository {
 

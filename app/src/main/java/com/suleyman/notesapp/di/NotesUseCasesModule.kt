@@ -3,7 +3,7 @@ package com.suleyman.notesapp.di
 import com.suleyman.notesapp.domain.usecase.notes.*
 import org.koin.dsl.module
 
-val useCasesModule = module {
+val notesUseCasesModule = module {
 
     single {
         CreateAndSaveNoteUseCase(storage = get())
@@ -22,7 +22,7 @@ val useCasesModule = module {
     }
 
     single {
-        WrapperUseCases(
+        WrapperNotesUseCases(
             createAndSaveNoteUseCase = get(),
             getListNotesUseCase = get(),
             deleteNoteUseCase = get(),

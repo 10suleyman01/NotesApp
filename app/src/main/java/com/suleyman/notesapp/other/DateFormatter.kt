@@ -7,7 +7,7 @@ object DateFormatter {
 
     @SuppressLint("SimpleDateFormat")
     fun dateFromString(timeInMillis: Long, formatType: FormatType): String {
-        val dateFormater = SimpleDateFormat("HH:mm/yyyy")
+        val dateFormater = SimpleDateFormat("HH:mm-yyyy")
         val timeFormater = SimpleDateFormat("hh:mm")
 
         return when(formatType) {

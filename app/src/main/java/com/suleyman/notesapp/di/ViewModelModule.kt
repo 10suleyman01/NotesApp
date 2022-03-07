@@ -8,13 +8,11 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel {
-        NoteViewModel(
-            useCases = get()
-        )
+        NoteViewModel(useCases = get())
     }
 
     viewModel {
-        TasksViewModel()
+        TasksViewModel(useCases = get())
     }
 
 }

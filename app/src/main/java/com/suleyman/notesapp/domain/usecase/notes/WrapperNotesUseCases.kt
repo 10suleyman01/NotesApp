@@ -1,6 +1,6 @@
 package com.suleyman.notesapp.domain.usecase.notes
 
-data class WrapperUseCases(
+data class WrapperNotesUseCases(
     val createAndSaveNoteUseCase: CreateAndSaveNoteUseCase,
     val getListNotesUseCase: GetListNotesUseCase,
     val deleteNoteUseCase: DeleteNoteUseCase,
