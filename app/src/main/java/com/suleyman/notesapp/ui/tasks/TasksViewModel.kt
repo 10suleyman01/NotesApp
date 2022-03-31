@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class TasksViewModel(
     private val useCases: WrapperTasksUseCases
-): ViewModel() {
+) : ViewModel() {
 
     private val _states: MutableStateFlow<TasksEvent> = MutableStateFlow(TasksEvent.None)
     var states = _states.asStateFlow()
@@ -29,6 +29,10 @@ class TasksViewModel(
         _states.value = TasksEvent.AddNewTask(task)
     }
 
+    suspend fun getById(id: Long): TaskEntity {
+        return useCases.getTaskByIdUseCase.execute(id)
+    }
+
     private fun loadingEvent(delayInMillis: Long = 0, body: suspend () -> Unit) =
         viewModelScope.launch {
             _states.value = TasksEvent.Loading(true)
@@ -39,11 +43,11 @@ class TasksViewModel(
             _states.value = TasksEvent.Loading(false)
         }
 
-    sealed class TasksEvent: EventMarker() {
-        object None: TasksEvent()
-        data class Loading(val isLoading: Boolean): TasksEvent()
-        data class GetListTasks(val tasks: ListTasks): TasksEvent()
-        data class AddNewTask(val task: TaskEntity): TasksEvent()
+    sealed class TasksEvent : EventMarker() {
+        object None : TasksEvent()
+        data class Loading(val isLoading: Boolean) : TasksEvent()
+        data class GetListTasks(val tasks: ListTasks) : TasksEvent()
+        data class AddNewTask(val task: TaskEntity) : TasksEvent()
     }
 
 }

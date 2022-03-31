@@ -1,9 +1,6 @@
 package com.suleyman.notesapp.di
 
-import com.suleyman.notesapp.domain.usecase.tasks.CreateAndSaveTaskUseCase
-import com.suleyman.notesapp.domain.usecase.tasks.DeleteTaskUseCase
-import com.suleyman.notesapp.domain.usecase.tasks.GetListTasksUseCase
-import com.suleyman.notesapp.domain.usecase.tasks.WrapperTasksUseCases
+import com.suleyman.notesapp.domain.usecase.tasks.*
 import org.koin.dsl.module
 
 val taskUseCasesModule = module {
@@ -17,14 +14,19 @@ val taskUseCasesModule = module {
     }
 
     single {
+        GetTaskByIdUseCase(storage = get())
+    }
+
+    single {
         DeleteTaskUseCase(storage = get())
     }
 
     single {
         WrapperTasksUseCases(
             getListTasksUseCase = get(),
+            getTaskByIdUseCase = get(),
             createAndSaveTaskUseCase = get(),
-            deleteTaskUseCase = get()
+            deleteTaskUseCase = get(),
         )
     }
 

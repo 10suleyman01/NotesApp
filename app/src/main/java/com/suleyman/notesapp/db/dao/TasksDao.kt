@@ -12,6 +12,9 @@ interface TasksDao {
     @Query("SELECT * FROM tasks WHERE title LIKE :title")
     suspend fun searchTasksByTitle(title: String): ListTasks
 
+    @Query("SELECT * FROM tasks WHERE :id == id")
+    suspend fun getTaskById(id: Long): TaskEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: TaskEntity)
 

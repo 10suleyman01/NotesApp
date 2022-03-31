@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.suleyman.notesapp.databinding.TaskItemBinding
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.other.MutListTasks
+import com.suleyman.notesapp.other.OnTaskClickListener
 
-class TasksAdapter : RecyclerView.Adapter<TaskHolder>() {
+class TasksAdapter: RecyclerView.Adapter<TaskHolder>() {
 
-    val items: MutListTasks = mutableListOf()
+    private val items: MutListTasks = mutableListOf()
+    var listener: OnTaskClickListener? = null
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun addTask(task: TaskEntity) {
-        items.add(task)
-        notifyDataSetChanged()
+    init {
+        setHasStableIds(true)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -32,7 +32,8 @@ class TasksAdapter : RecyclerView.Adapter<TaskHolder>() {
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            listener!!
         )
     }
 

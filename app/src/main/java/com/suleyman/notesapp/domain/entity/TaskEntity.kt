@@ -14,3 +14,4 @@ data class TaskEntity(
     var createdAt: Long,
     var completed: Boolean
 ): Parcelable
+

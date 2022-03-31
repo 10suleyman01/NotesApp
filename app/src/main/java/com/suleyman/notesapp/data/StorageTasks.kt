@@ -11,6 +11,10 @@ class StorageTasks(
 
     override suspend fun searchTasksByTitle(title: String) = local.searchTasksByTitle(title)
 
+    override suspend fun getTaskById(id: Long): TaskEntity {
+        return local.getTaskById(id)
+    }
+
     override suspend fun insert(task: TaskEntity) {
         local.insert(task)
     }

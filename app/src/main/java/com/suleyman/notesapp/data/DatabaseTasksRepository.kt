@@ -16,6 +16,10 @@ class DatabaseTasksRepository(
         dao.insert(task)
     }
 
+    override suspend fun getTaskById(id: Long): TaskEntity {
+        return dao.getTaskById(id)
+    }
+
     override suspend fun delete(task: TaskEntity) {
         dao.delete(task)
     }

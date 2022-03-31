@@ -17,8 +17,6 @@ class StorageNotes(
     }
 
     override suspend fun search(title: String): ListNotes {
-
-
         return local.notes()
     }
 

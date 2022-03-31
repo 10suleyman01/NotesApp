@@ -11,6 +11,7 @@ import com.suleyman.notesapp.databinding.CreateTaskModalDialogBinding
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.other.clearText
 import com.suleyman.notesapp.other.text
+import org.koin.android.ext.android.inject
 
 class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
@@ -19,9 +20,12 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     }
 
     private var _binding: CreateTaskModalDialogBinding? = null
+
     private val binding get() = _binding!!
+    private val viewModel: TasksViewModel by inject()
 
     var listener: TaskSaveHandle? = null
+    var task: TaskEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,24 +38,27 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = CreateTaskModalDialogBinding.inflate(inflater, container, false)
-
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         dialog?.setOnShowListener {
+            // EDIT MODE
+
+            task = arguments?.get("task") as TaskEntity?
+
+            if (task != null) {
+                binding.etTaskTitle.setText(task?.title)
+            }
 
             BottomSheetBehavior.from(binding.content).apply {
                 isFitToContents = false
                 state = BottomSheetBehavior.STATE_EXPANDED
                 saveFlags = BottomSheetBehavior.SAVE_ALL
             }
-
         }
 
         binding.apply {
@@ -62,17 +69,22 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.saveTask -> if (listener != null) {
-                val title = binding.etTaskTitle.text()
-                if (title.isNotEmpty()) {
-                    val task = TaskEntity(0, title, System.currentTimeMillis(),false)
+
+                if (task != null) {
+                    task?.title = binding.etTaskTitle.text()
+                    listener?.saveTask(task!!)
+                } else {
+                    val title = binding.etTaskTitle.text()
+                    val task = TaskEntity(0, title, System.currentTimeMillis(), false)
                     listener?.saveTask(task)
-                    binding.etTaskTitle.clearText()
                 }
 
+                binding.etTaskTitle.clearText()
                 dialog?.dismiss()
             }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
