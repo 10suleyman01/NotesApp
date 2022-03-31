@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tvCreatedTask"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Купить хлеб" />
+            tools:text="Buy xaaw" />
 
 
         <TextView
@@ -39,6 +39,17 @@
             app:layout_constraintStart_toEndOf="@+id/cbTitle"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="11:00" />
+
+        <View
+            android:id="@+id/taskIsSelected"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/md_theme_light_primary"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

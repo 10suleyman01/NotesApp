@@ -46,12 +46,14 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
         super.onViewCreated(view, savedInstanceState)
 
         dialog?.setOnShowListener {
-            // EDIT MODE
 
             task = arguments?.get("task") as TaskEntity?
 
             if (task != null) {
                 binding.etTaskTitle.setText(task?.title)
+                binding.cbCompleted.isChecked = task?.completed ?: false
+            } else {
+                binding.etTaskTitle.clearText()
             }
 
             BottomSheetBehavior.from(binding.content).apply {
@@ -72,14 +74,17 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
 
                 if (task != null) {
                     task?.title = binding.etTaskTitle.text()
+                    task?.completed = binding.cbCompleted.isChecked
                     listener?.saveTask(task!!)
                 } else {
                     val title = binding.etTaskTitle.text()
-                    val task = TaskEntity(0, title, System.currentTimeMillis(), false)
+                    val task = TaskEntity(0, title, System.currentTimeMillis(), binding.cbCompleted.isChecked)
                     listener?.saveTask(task)
+
+                    binding.cbCompleted.isChecked = false
+                    binding.etTaskTitle.clearText()
                 }
 
-                binding.etTaskTitle.clearText()
                 dialog?.dismiss()
             }
         }

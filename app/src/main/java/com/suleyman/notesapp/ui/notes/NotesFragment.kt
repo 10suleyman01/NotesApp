@@ -1,12 +1,8 @@
 package com.suleyman.notesapp.ui.notes
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -26,13 +22,15 @@ import com.suleyman.notesapp.ui.create_note.NOTE
 import com.suleyman.notesapp.ui.create_note.RESULT_NOTE_KEY
 import com.suleyman.notesapp.ui.notes.adapter.NotesAdapter
 import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemDetailLookup
+import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskItemDetailLookup
 import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemKeyProvider
 import com.suleyman.notesapp.ui.notes.adapter.selection.NotesSelectionObserver
+import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskSelectionObserver
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-private const val SELECTION_ID = "notes_selection_id"
+private const val SELECTION_NOTES_ID = "notes_selection_id"
 
 class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -120,7 +118,7 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun initSelectionTracker(rvItems: RecyclerView) {
         tracker = SelectionTracker.Builder(
-            SELECTION_ID,
+            SELECTION_NOTES_ID,
             rvItems,
             NoteItemKeyProvider(adapter),
             NoteItemDetailLookup(rvItems),
