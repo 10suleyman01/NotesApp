@@ -166,13 +166,13 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.deleteNote -> {
-                tracker?.let {
-                    val iterator = it.selection.toMutableList().iterator()
+                tracker?.let { notesSelected ->
+                    val iterator = notesSelected.selection.toMutableList().iterator()
                     while (iterator.hasNext()) {
                         val noteModel = iterator.next()
                         viewModel.delete(noteModel)
                         iterator.remove()
-                        tracker?.clearSelection()
+                        notesSelected.clearSelection()
                     }
                 }
                 true

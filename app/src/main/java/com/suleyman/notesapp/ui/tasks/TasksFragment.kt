@@ -1,6 +1,9 @@
 package com.suleyman.notesapp.ui.tasks
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -13,16 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentListBinding
-import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.other.MutListTasks
 import com.suleyman.notesapp.other.OnTaskClickListener
 import com.suleyman.notesapp.ui.MainActivity
-import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskItemDetailLookup
-import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemKeyProvider
-import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskSelectionObserver
 import com.suleyman.notesapp.ui.tasks.adapter.TasksAdapter
+import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskItemDetailLookup
 import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskItemKeyProvider
+import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskSelectionObserver
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.ext.android.inject
 
@@ -37,6 +38,11 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
     private var tracker: SelectionTracker<TaskEntity>? = null
 
     private val viewModel: TasksViewModel by inject()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,13 +77,13 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
                     is TasksViewModel.TasksEvent.AddNewTask -> {
                         viewModel.tasks()
                     }
+                    is TasksViewModel.TasksEvent.Deleted -> {
+                        viewModel.tasks()
+                    }
                     else -> TasksViewModel.TasksEvent.None
                 }
             }
-
         }
-
-
     }
 
     private fun initSelectionTracker(rvItems: RecyclerView) {
@@ -95,22 +101,52 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
         adapter.tracker = tracker
     }
 
-    private fun taskClickListener() = object: OnTaskClickListener {
-        override fun onTaskClick(task: TaskEntity) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
 
-            val args = bundleOf("task" to task)
+        inflater.inflate(R.menu.menu_tasks, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.deleteTasks -> {
+                tracker?.let {
+                    val iterator = it.selection.toMutableList().iterator()
+
+                    while (iterator.hasNext()) {
+                        val task = iterator.next()
+                        viewModel.deleteTask(task)
+                        iterator.remove()
+                        it.clearSelection()
+                    }
+                }
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun taskClickListener() = object : OnTaskClickListener {
+        override fun onTaskClick(task: TaskEntity, index: Int) {
+            val args = bundleOf("task" to task, "index" to index)
             createTaskDialog.arguments = args
             createTaskDialog.show(parentFragmentManager, CreateTaskDialogFragment.TAG)
         }
 
         override fun onTaskChecked(task: TaskEntity) {
-            viewModel.newTask(task)
+            viewModel.newOrUpdate(task)
         }
     }
 
     private fun createTaskListener() = object : CreateTaskDialogFragment.TaskSaveHandle {
         override fun saveTask(task: TaskEntity) {
-            viewModel.newTask(task)
+            viewModel.newOrUpdate(task)
+        }
+
+        override fun deleteTask(task: TaskEntity, index: Int) {
+            adapter.notifyItemRemoved(index)
+            viewModel.deleteTask(task)
         }
     }
 
@@ -120,6 +156,7 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
                 createTaskDialog.arguments = null
                 createTaskDialog.show(parentFragmentManager, CreateTaskDialogFragment.TAG)
             }
+
         }
     }
 }

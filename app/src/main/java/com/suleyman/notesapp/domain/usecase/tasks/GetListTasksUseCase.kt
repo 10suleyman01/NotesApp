@@ -6,9 +6,5 @@ import com.suleyman.notesapp.other.ListTasks
 class GetListTasksUseCase(
     private val storage: StorageTasks
 ) {
-
-    suspend fun execute(): ListTasks {
-        return storage.local.tasks()
-    }
-
+    suspend fun execute(): ListTasks = storage.local.tasks()
 }

@@ -69,7 +69,6 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
             R.id.save -> {
 
                 if (isEditNoteMode) {
-
                     val note = args.note
 
                     note?.let {
@@ -78,7 +77,6 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
                         setNoteResult(note)
                         saveAndBack()
                     }
-
                     return true
                 }
 

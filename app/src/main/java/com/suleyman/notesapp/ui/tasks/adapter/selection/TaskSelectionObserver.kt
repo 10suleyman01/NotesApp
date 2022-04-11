@@ -18,8 +18,10 @@ class TaskSelectionObserver(
             activity.getToolbar().apply {
                 if (selectionTracker.hasSelection()) {
                     title = "${activity.getString(R.string.selected)}: ${selectionTracker.selection.size()}"
+                    menu.findItem(R.id.deleteTasks).isVisible = true
                 } else {
                     setTitle(R.string.tasks)
+                    menu.findItem(R.id.deleteTasks).isVisible = false
                 }
             }
         }

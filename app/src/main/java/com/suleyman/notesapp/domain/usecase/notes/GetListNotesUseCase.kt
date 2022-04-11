@@ -6,9 +6,5 @@ import com.suleyman.notesapp.other.ListNotes
 class GetListNotesUseCase(
     private val storage: StorageNotes
 ) {
-
-    suspend fun execute(isLocal: Boolean): ListNotes {
-        return storage.local.notes()
-    }
-
+    suspend fun execute(isLocal: Boolean): ListNotes = storage.local.notes()
 }

@@ -5,12 +5,10 @@ import androidx.room.TypeConverter
 class TagsConverter {
 
     @TypeConverter
-    fun fromTags(data: String): List<String> {
-        return data.split(",").map { it }
-    }
+    fun fromTags(data: String): List<String> = data.split(",").map { it }
+
 
     @TypeConverter
-    fun toTags(tags: List<String>): String {
-        return tags.joinToString(separator = ",")
-    }
+    fun toTags(tags: List<String>): String = tags.joinToString(separator = ",")
+
 }

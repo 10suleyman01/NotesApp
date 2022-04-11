@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.usecase.notes.WrapperNotesUseCases
-import com.suleyman.notesapp.other.EventMarker
 import com.suleyman.notesapp.other.ListNotes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +53,7 @@ class NoteViewModel(
             _states.value = NotesEvent.Loading(false)
         }
 
-    sealed class NotesEvent: EventMarker() {
+    sealed class NotesEvent {
         object None : NotesEvent()
         object Deleted : NotesEvent()
         data class Loading(val isLoading: Boolean) : NotesEvent()

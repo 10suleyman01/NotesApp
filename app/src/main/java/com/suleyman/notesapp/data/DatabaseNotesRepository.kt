@@ -8,19 +8,13 @@ import com.suleyman.notesapp.other.ListNotes
 class DatabaseNotesRepository(
     private val dao: NotesDao
 ): NotesRepository {
-    override suspend fun notes(): ListNotes {
-        return dao.notes()
-    }
 
-    override suspend fun insert(noteModel: NoteEntity) {
-        dao.insert(noteModel)
-    }
+    override suspend fun notes(): ListNotes = dao.notes()
 
-    override suspend fun search(title: String): ListNotes {
-        return dao.searchNotesByTitle(title)
-    }
+    override suspend fun insert(noteModel: NoteEntity) = dao.insert(noteModel)
 
-    override suspend fun delete(noteModel: NoteEntity) {
-        dao.delete(noteModel)
-    }
+    override suspend fun search(title: String): ListNotes = dao.searchNotesByTitle(title)
+
+    override suspend fun delete(noteModel: NoteEntity) = dao.delete(noteModel)
+
 }

@@ -12,9 +12,6 @@ import com.suleyman.notesapp.db.TasksDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-const val LOCAL = "local_db"
-const val FIREBASE = "firebase_db"
-
 val databaseModule = module {
 
     single {

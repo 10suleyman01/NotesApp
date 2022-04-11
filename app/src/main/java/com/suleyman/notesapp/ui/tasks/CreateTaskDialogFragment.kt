@@ -1,6 +1,7 @@
 package com.suleyman.notesapp.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
 
     var listener: TaskSaveHandle? = null
     var task: TaskEntity? = null
+    var index = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +52,10 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
             task = arguments?.get("task") as TaskEntity?
 
             if (task != null) {
+                index = arguments?.get("index") as Int
+
                 binding.etTaskTitle.setText(task?.title)
-                binding.cbCompleted.isChecked = task?.completed ?: false
+                binding.cbCompleted.isChecked = task!!.completed
             } else {
                 binding.etTaskTitle.clearText()
             }
@@ -71,17 +75,27 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.saveTask -> if (listener != null) {
-
                 if (task != null) {
-                    task?.title = binding.etTaskTitle.text()
-                    task?.completed = binding.cbCompleted.isChecked
-                    listener?.saveTask(task!!)
+                    val editedTitle = binding.etTaskTitle.text()
+                    if (editedTitle.isEmpty()) {
+                        Log.d(TAG, "onClick: deleted $index")
+                        listener?.deleteTask(task!!, index)
+                    } else {
+                        task?.title = editedTitle
+                        Log.d(TAG, "onClick: saved $index")
+                        task?.completed = binding.cbCompleted.isChecked
+                        listener?.saveTask(task!!)
+                    }
                 } else {
                     val title = binding.etTaskTitle.text()
-                    val task = TaskEntity(0, title, System.currentTimeMillis(), binding.cbCompleted.isChecked)
+                    val task = TaskEntity(
+                        0,
+                        title,
+                        System.currentTimeMillis(),
+                        binding.cbCompleted.isChecked
+                    )
                     listener?.saveTask(task)
 
-                    binding.cbCompleted.isChecked = false
                     binding.etTaskTitle.clearText()
                 }
 
@@ -89,7 +103,6 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -99,6 +112,7 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
 
     interface TaskSaveHandle {
         fun saveTask(task: TaskEntity)
+        fun deleteTask(task: TaskEntity, index: Int)
     }
 
 }

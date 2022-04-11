@@ -7,8 +7,6 @@ class GetTaskByIdUseCase(
     private val storage: StorageTasks
 ) {
 
-    suspend fun execute(id: Long): TaskEntity {
-        return storage.getTaskById(id)
-    }
+    suspend fun execute(id: Long): TaskEntity = storage.getTaskById(id)
 
 }

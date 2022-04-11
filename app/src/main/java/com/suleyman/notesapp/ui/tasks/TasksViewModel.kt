@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.domain.usecase.tasks.WrapperTasksUseCases
-import com.suleyman.notesapp.other.EventMarker
 import com.suleyman.notesapp.other.ListTasks
-import com.suleyman.notesapp.ui.notes.NoteViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,9 +22,14 @@ class TasksViewModel(
         _states.value = TasksEvent.GetListTasks(tasks)
     }
 
-    fun newTask(task: TaskEntity) = viewModelScope.launch {
+    fun newOrUpdate(task: TaskEntity) = viewModelScope.launch {
         useCases.createAndSaveTaskUseCase.execute(task)
         _states.value = TasksEvent.AddNewTask(task)
+    }
+
+    fun deleteTask(task: TaskEntity) = viewModelScope.launch {
+        useCases.deleteTaskUseCase.execute(task)
+        _states.value = TasksEvent.Deleted
     }
 
     suspend fun getById(id: Long): TaskEntity {
@@ -43,8 +46,9 @@ class TasksViewModel(
             _states.value = TasksEvent.Loading(false)
         }
 
-    sealed class TasksEvent : EventMarker() {
+    sealed class TasksEvent {
         object None : TasksEvent()
+        object Deleted : TasksEvent()
         data class Loading(val isLoading: Boolean) : TasksEvent()
         data class GetListTasks(val tasks: ListTasks) : TasksEvent()
         data class AddNewTask(val task: TaskEntity) : TasksEvent()

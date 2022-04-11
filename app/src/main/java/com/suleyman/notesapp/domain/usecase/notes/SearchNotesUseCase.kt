@@ -6,9 +6,5 @@ import com.suleyman.notesapp.other.ListNotes
 class SearchNotesUseCase(
     private val storage: StorageNotes
 ) {
-
-    suspend fun execute(title: String): ListNotes {
-        return storage.local.search(title)
-    }
-
+    suspend fun execute(title: String): ListNotes = storage.local.search(title)
 }

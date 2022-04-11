@@ -9,6 +9,7 @@ buildscript {
         koin_version= "3.1.5"
         coroutine_android = "1.5.2"
         nav_version = "2.4.1"
+        okhttp_version = "4.9.3"
     }
 
     dependencies {
@@ -19,9 +20,9 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '7.1.2' apply false
-    id 'com.android.library' version '7.1.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+    id 'com.android.application' version '7.1.3' apply false
+    id 'com.android.library' version '7.1.3' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.20' apply false
 }
 
 

@@ -4,7 +4,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.suleyman.notesapp.databinding.TaskItemBinding
-import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.other.DateFormatter
 import com.suleyman.notesapp.other.ListTasks
@@ -28,11 +27,9 @@ class TaskHolder(
                 taskEntity.completed = isChecked
                 listener.onTaskChecked(taskEntity)
             }
-
         }
-
         item.holder.setOnClickListener {
-            listener.onTaskClick(taskEntity)
+            listener.onTaskClick(taskEntity, adapterPosition)
         }
     }
 

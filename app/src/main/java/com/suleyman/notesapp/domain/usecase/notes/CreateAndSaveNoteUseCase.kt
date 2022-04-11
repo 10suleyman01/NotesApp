@@ -6,9 +6,5 @@ import com.suleyman.notesapp.domain.entity.NoteEntity
 class CreateAndSaveNoteUseCase(
     private val storage: StorageNotes
 ) {
-
-    suspend fun execute(note: NoteEntity) {
-        storage.local.insert(note)
-    }
-
+    suspend fun execute(note: NoteEntity) = storage.local.insert(note)
 }

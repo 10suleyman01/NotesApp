@@ -8,9 +8,5 @@ import com.suleyman.notesapp.domain.entity.TaskEntity
 class DeleteTaskUseCase(
     private val storage: StorageTasks
 ) {
-
-    suspend fun execute(task: TaskEntity) {
-        storage.local.delete(task)
-    }
-
+    suspend fun execute(task: TaskEntity) = storage.local.delete(task)
 }
