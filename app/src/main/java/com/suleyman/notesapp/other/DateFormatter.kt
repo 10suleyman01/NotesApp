@@ -12,7 +12,7 @@ object DateFormatter {
 
         return when(formatType) {
              FormatType.Date -> dateFormater.format(timeInMillis)
-             FormatType.Time -> dateFormater.format(timeInMillis)
+             FormatType.Time -> timeFormater.format(timeInMillis)
         }
     }
 
