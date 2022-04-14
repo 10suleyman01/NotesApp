@@ -112,7 +112,6 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
             R.id.deleteTasks -> {
                 tracker?.let {
                     val iterator = it.selection.toMutableList().iterator()
-
                     while (iterator.hasNext()) {
                         val task = iterator.next()
                         viewModel.deleteTask(task)
@@ -145,7 +144,7 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
         }
 
         override fun deleteTask(task: TaskEntity, index: Int) {
-            adapter.notifyItemRemoved(index)
+            adapter.deleteTask(task, position = index)
             viewModel.deleteTask(task)
         }
     }

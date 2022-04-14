@@ -24,6 +24,11 @@ class TasksAdapter: RecyclerView.Adapter<TaskHolder>() {
         notifyDataSetChanged()
     }
 
+    fun deleteTask(task: TaskEntity, position: Int) {
+        tasks.remove(task)
+        notifyItemRemoved(position)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskHolder {
 
         return TaskHolder(
