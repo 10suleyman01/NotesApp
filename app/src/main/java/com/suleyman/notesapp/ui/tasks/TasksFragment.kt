@@ -28,6 +28,8 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.ext.android.inject
 
 private const val SELECTION_TASKS_ID = "tasks_selection_id"
+private const val TASK = "task"
+private const val INDEX = "index"
 
 class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
 
@@ -58,7 +60,6 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
             rvItems.adapter = adapter
 
             initSelectionTracker(binding.rvItems)
-
             fabNew.setOnClickListener(this@TasksFragment)
         }
 
@@ -128,7 +129,7 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
 
     private fun taskClickListener() = object : OnTaskClickListener {
         override fun onTaskClick(task: TaskEntity, index: Int) {
-            val args = bundleOf("task" to task, "index" to index)
+            val args = bundleOf(TASK to task, INDEX to index)
             createTaskDialog.arguments = args
             createTaskDialog.show(parentFragmentManager, CreateTaskDialogFragment.TAG)
         }

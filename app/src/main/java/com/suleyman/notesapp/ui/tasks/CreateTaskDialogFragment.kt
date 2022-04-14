@@ -78,11 +78,9 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
                 if (task != null) {
                     val editedTitle = binding.etTaskTitle.text()
                     if (editedTitle.isEmpty()) {
-                        Log.d(TAG, "onClick: deleted $index")
                         listener?.deleteTask(task!!, index)
                     } else {
                         task?.title = editedTitle
-                        Log.d(TAG, "onClick: saved $index")
                         task?.completed = binding.cbCompleted.isChecked
                         listener?.saveTask(task!!)
                     }
