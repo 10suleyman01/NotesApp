@@ -19,14 +19,22 @@
 
 
         <CheckBox
-            android:id="@+id/cbTitle"
+            android:id="@+id/cbChecked"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/tvCreatedTask"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Buy xaaw" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            tools:text="Buy xo"
+            android:maxLines="1"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvCreatedTask"
+            app:layout_constraintStart_toEndOf="@+id/cbChecked"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvCreatedTask"
@@ -36,7 +44,6 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cbTitle"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="11:00" />
 

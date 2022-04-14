@@ -17,13 +17,13 @@ class TaskHolder(
 
     fun bind(taskEntity: TaskEntity, selected: Boolean) {
         item.apply {
-            cbTitle.text = taskEntity.title
-            cbTitle.isChecked = taskEntity.completed
+            tvTitle.text = taskEntity.title
+            cbChecked.isChecked = taskEntity.completed
             tvCreatedTask.text = DateFormatter.dateFromString(taskEntity.createdAt, DateFormatter.FormatType.Date)
 
             taskIsSelected.isVisible = selected
 
-            cbTitle.setOnCheckedChangeListener { _, isChecked ->
+            cbChecked.setOnCheckedChangeListener { _, isChecked ->
                 taskEntity.completed = isChecked
                 listener.onTaskChecked(taskEntity)
             }
