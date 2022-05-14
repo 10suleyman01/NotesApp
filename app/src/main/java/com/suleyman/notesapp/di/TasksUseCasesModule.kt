@@ -4,7 +4,6 @@ import com.suleyman.notesapp.domain.usecase.tasks.*
 import org.koin.dsl.module
 
 val taskUseCasesModule = module {
-
     single {
         GetListTasksUseCase(storage = get())
     }
@@ -29,5 +28,4 @@ val taskUseCasesModule = module {
             deleteTaskUseCase = get(),
         )
     }
-
 }

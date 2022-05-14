@@ -21,7 +21,6 @@ class NoteViewModel(
     fun save(note: NoteEntity) = viewModelScope.launch {
         useCases.createAndSaveNoteUseCase.execute(note)
         _states.value = NotesEvent.NewNote(note)
-
     }
 
     fun delete(note: NoteEntity) = loadingEvent {

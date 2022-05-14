@@ -30,7 +30,6 @@ val databaseModule = module {
         DatabaseTasksRepository(dao = get())
     }
 
-
     single {
         StorageNotes(
             local = get(),

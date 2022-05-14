@@ -8,7 +8,7 @@ import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.other.DateFormatter
 import com.suleyman.notesapp.other.ListNotes
 import com.suleyman.notesapp.other.OnNoteClickListener
-import com.suleyman.notesapp.other.Type
+import com.suleyman.notesapp.other.DateType
 
 
 class NoteHolder(
@@ -21,7 +21,7 @@ class NoteHolder(
         view.apply {
             tvTitle.text = note.title
             tvText.text = note.text
-            tvCreatedAt.text = DateFormatter.dateFromString(note.createdAt, Type.Date)
+            tvCreatedAt.text = DateFormatter.dateFromString(note.createdAt, DateType.Date)
             bookmark.isVisible = note.isBookmarked
             checked.isVisible = selected
         }

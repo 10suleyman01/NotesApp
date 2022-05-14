@@ -11,3 +11,8 @@ interface OnTaskClickListener {
     fun onTaskClick(task: TaskEntity, index: Int)
     fun onTaskChecked(task: TaskEntity)
 }
+
+interface TaskSaveHandle {
+    fun saveTask(task: TaskEntity)
+    fun deleteTask(task: TaskEntity, index: Int)
+}

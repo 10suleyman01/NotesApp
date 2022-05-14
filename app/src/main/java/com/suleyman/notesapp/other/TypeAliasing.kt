@@ -9,4 +9,4 @@ typealias MutListNotes = MutableList<NoteEntity>
 typealias ListTasks = List<TaskEntity>
 typealias MutListTasks = MutableList<TaskEntity>
 
-typealias Type = DateFormatter.FormatType
+typealias DateType = DateFormatter.FormatType

@@ -1,7 +1,7 @@
 package com.suleyman.notesapp.ui.tasks
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.CreateTaskModalDialogBinding
 import com.suleyman.notesapp.domain.entity.TaskEntity
+import com.suleyman.notesapp.other.TaskSaveHandle
 import com.suleyman.notesapp.other.clearText
 import com.suleyman.notesapp.other.text
 import org.koin.android.ext.android.inject
@@ -69,23 +70,24 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
 
         binding.apply {
             saveTask.setOnClickListener(this@CreateTaskDialogFragment)
+            remindTask.setOnClickListener(this@CreateTaskDialogFragment)
         }
     }
 
-    override fun onClick(view: View?) {
-        when (view?.id) {
-            R.id.saveTask -> if (listener != null) {
-                if (task != null) {
-                    val editedTitle = binding.etTaskTitle.text()
-                    if (editedTitle.isEmpty()) {
-                        listener?.deleteTask(task!!, index)
-                    } else {
-                        task?.title = editedTitle
-                        task?.completed = binding.cbCompleted.isChecked
-                        listener?.saveTask(task!!)
-                    }
+    private fun saveTask() {
+        if (listener != null) {
+            if (task != null) {
+                val editedTitle = binding.etTaskTitle.text()
+                if (editedTitle.isEmpty()) {
+                    listener?.deleteTask(task!!, index)
                 } else {
-                    val title = binding.etTaskTitle.text()
+                    task?.title = editedTitle
+                    task?.completed = binding.cbCompleted.isChecked
+                    listener?.saveTask(task!!)
+                }
+            } else {
+                val title = binding.etTaskTitle.text()
+                if (title.isNotEmpty()) {
                     val task = TaskEntity(
                         0,
                         title,
@@ -93,11 +95,29 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
                         binding.cbCompleted.isChecked
                     )
                     listener?.saveTask(task)
-
                     binding.etTaskTitle.clearText()
                 }
+            }
+            dialog?.dismiss()
+        }
+    }
+    
+    private fun remindTask() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Напомнить")
+            .create()
 
-                dialog?.dismiss()
+        dialog.show()
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.saveTask -> {
+                saveTask()
+            }
+
+            R.id.remindTask -> {
+                remindTask()
             }
         }
     }
@@ -106,11 +126,6 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
         super.onDestroy()
 
         _binding = null
-    }
-
-    interface TaskSaveHandle {
-        fun saveTask(task: TaskEntity)
-        fun deleteTask(task: TaskEntity, index: Int)
     }
 
 }

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentProfileBinding
-import com.suleyman.notesapp.ui.auth.AuthActivity
 
 const val RC_SIGN_IN = "sign_in"
 
@@ -44,7 +43,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
     override fun onClick(view: View) {
         when (view.id) {
             R.id.btnAuth -> {
-
             }
         }
     }

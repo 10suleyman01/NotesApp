@@ -67,10 +67,8 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.save -> {
-
                 if (isEditNoteMode) {
                     val note = args.note
-
                     note?.let {
                         note.title = binding.etTitle.text()
                         note.text = binding.etText.text()
@@ -115,5 +113,4 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
 
         findNavController().navigate(action, navOptions)
     }
-
 }

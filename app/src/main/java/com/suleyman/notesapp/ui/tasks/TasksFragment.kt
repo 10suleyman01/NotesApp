@@ -19,6 +19,7 @@ import com.suleyman.notesapp.databinding.FragmentListBinding
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.other.MutListTasks
 import com.suleyman.notesapp.other.OnTaskClickListener
+import com.suleyman.notesapp.other.TaskSaveHandle
 import com.suleyman.notesapp.ui.MainActivity
 import com.suleyman.notesapp.ui.tasks.adapter.TasksAdapter
 import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskItemDetailLookup
@@ -139,7 +140,7 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
         }
     }
 
-    private fun createTaskListener() = object : CreateTaskDialogFragment.TaskSaveHandle {
+    private fun createTaskListener() = object : TaskSaveHandle {
         override fun saveTask(task: TaskEntity) {
             viewModel.newOrUpdate(task)
         }

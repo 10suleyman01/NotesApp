@@ -52,9 +52,7 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentListBinding.inflate(inflater)
-
         return binding.root
     }
 
@@ -89,7 +87,6 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
         lifecycleScope.launchWhenCreated {
             viewModel.states.collectLatest { event ->
                 when (event) {
-
                     is NoteViewModel.NotesEvent.NewNote -> {
                         viewModel.notes()
                     }
