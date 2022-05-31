@@ -25,10 +25,12 @@ const val NOTE = "note"
 
 class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
 
-    private lateinit var binding: FragmentCreateNoteBinding
+    private var _binding: FragmentCreateNoteBinding? = null
+    private val binding get() = _binding!!
     private val args: NotesFragmentArgs by navArgs()
 
     private var isEditNoteMode = false
+    private var isBookmark = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentCreateNoteBinding.bind(view)
+        _binding = FragmentCreateNoteBinding.bind(view)
 
         checkEditMode()
     }
@@ -87,7 +89,7 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
                 val text = binding.etText.text()
 
                 if (title.isNotEmpty() && text.isNotEmpty()) {
-                    val note = NoteEntity(0, title, text, System.currentTimeMillis(), false)
+                    val note = NoteEntity(0, title, text, System.currentTimeMillis(), isBookmark)
                     setNoteResult(note)
                     saveAndBack()
                 }
@@ -99,8 +101,14 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
                     note?.let {
                         it.isBookmarked = !it.isBookmarked
                     }
+                    setBookmarked(item)
+                } else {
+                    isBookmark = !isBookmark
+                    item.setIcon(
+                        if (isBookmark) R.drawable.ic_round_bookmark_24 else
+                            R.drawable.ic_baseline_bookmark_border_24
+                    )
                 }
-                setBookmarked(item)
             }
 
             android.R.id.home -> {
@@ -137,5 +145,11 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
             .build()
 
         findNavController().navigate(action, navOptions)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 }
