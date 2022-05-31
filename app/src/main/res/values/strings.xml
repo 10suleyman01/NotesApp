@@ -17,4 +17,5 @@
     <string name="you_not_have_tasks_yet">У вас нет активных задач!</string>
     <string name="input_task_name">Введите имя задачи</string>
     <string name="remind">Напомнить</string>
+    <string name="bookmark">Избранное</string>
 </resources>

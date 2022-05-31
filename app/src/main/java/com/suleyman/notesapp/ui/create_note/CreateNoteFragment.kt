@@ -61,7 +61,12 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+
+
         inflater.inflate(R.menu.menu_create_note, menu)
+
+        val item = menu.findItem(R.id.bookmark)
+        setBookmarked(item)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,18 +83,24 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
                     return true
                 }
 
-                lifecycleScope.launch {
+                val title = binding.etTitle.text()
+                val text = binding.etText.text()
 
-                    val title = binding.etTitle.text()
-                    val text = binding.etText.text()
-
-                    if (title.isNotEmpty() && text.isNotEmpty()) {
-                        val note = NoteEntity(0, title, text, System.currentTimeMillis(), false)
-                        setNoteResult(note)
-                        saveAndBack()
-                    }
-
+                if (title.isNotEmpty() && text.isNotEmpty()) {
+                    val note = NoteEntity(0, title, text, System.currentTimeMillis(), false)
+                    setNoteResult(note)
+                    saveAndBack()
                 }
+            }
+
+            R.id.bookmark -> {
+                if (isEditNoteMode) {
+                    val note = args.note
+                    note?.let {
+                        it.isBookmarked = !it.isBookmarked
+                    }
+                }
+                setBookmarked(item)
             }
 
             android.R.id.home -> {
@@ -97,6 +108,20 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
             }
         }
         return true
+    }
+
+    private fun setBookmarked(item: MenuItem) {
+        if (isEditNoteMode) {
+            val note = args.note
+            note?.let {
+                item.setIcon(
+                    if (it.isBookmarked) R.drawable.ic_round_bookmark_24 else
+                        R.drawable.ic_baseline_bookmark_border_24
+                )
+            }
+        } else {
+            item.setIcon(R.drawable.ic_baseline_bookmark_border_24)
+        }
     }
 
     private fun setNoteResult(note: NoteEntity) {

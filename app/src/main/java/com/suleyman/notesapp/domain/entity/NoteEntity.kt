@@ -12,7 +12,7 @@ data class NoteEntity(
     var title: String,
     var text: String,
     val createdAt: Long,
-    val isBookmarked: Boolean
+    var isBookmarked: Boolean
 ): Parcelable {
     override fun toString(): String {
         return title
