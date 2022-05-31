@@ -14,6 +14,8 @@ class StorageNotes(
 
     override suspend fun search(title: String): ListNotes = local.notes()
 
+    override suspend fun sortByBookmarked(): ListNotes = local.sortByBookmarked()
+
     override suspend fun delete(noteModel: NoteEntity) = local.delete(noteModel)
 
 }

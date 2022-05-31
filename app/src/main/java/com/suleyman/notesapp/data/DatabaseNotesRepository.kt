@@ -15,6 +15,8 @@ class DatabaseNotesRepository(
 
     override suspend fun search(title: String): ListNotes = dao.searchNotesByTitle(title)
 
+    override suspend fun sortByBookmarked(): ListNotes = dao.sortByBookmarked()
+
     override suspend fun delete(noteModel: NoteEntity) = dao.delete(noteModel)
 
 }

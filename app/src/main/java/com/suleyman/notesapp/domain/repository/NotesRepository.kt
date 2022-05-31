@@ -10,5 +10,7 @@ interface NotesRepository {
 
     suspend fun search(title: String): ListNotes
 
+    suspend fun sortByBookmarked(): ListNotes
+
     suspend fun delete(noteModel: NoteEntity)
 }

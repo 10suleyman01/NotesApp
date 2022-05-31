@@ -12,6 +12,9 @@ interface NotesDao {
     @Query("SELECT * FROM notes WHERE title LIKE :title")
     suspend fun searchNotesByTitle(title: String): ListNotes
 
+    @Query("SELECT * FROM notes ORDER BY isBookmarked DESC")
+    suspend fun sortByBookmarked(): ListNotes
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(noteEntity: NoteEntity)
 

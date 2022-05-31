@@ -6,5 +6,8 @@ import com.suleyman.notesapp.other.ListNotes
 class GetListNotesUseCase(
     private val storage: StorageNotes
 ) {
-    suspend fun execute(): ListNotes = storage.local.notes()
+    suspend fun execute(isSorted: Boolean = false): ListNotes {
+        return if (isSorted) storage.local.sortByBookmarked() else
+            storage.local.notes()
+    }
 }
