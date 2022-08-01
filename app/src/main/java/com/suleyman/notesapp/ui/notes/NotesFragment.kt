@@ -3,9 +3,12 @@ package com.suleyman.notesapp.ui.notes
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.SelectionPredicates
@@ -22,10 +25,8 @@ import com.suleyman.notesapp.ui.create_note.NOTE
 import com.suleyman.notesapp.ui.create_note.RESULT_NOTE_KEY
 import com.suleyman.notesapp.ui.notes.adapter.NotesAdapter
 import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemDetailLookup
-import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskItemDetailLookup
 import com.suleyman.notesapp.ui.notes.adapter.selection.NoteItemKeyProvider
 import com.suleyman.notesapp.ui.notes.adapter.selection.NotesSelectionObserver
-import com.suleyman.notesapp.ui.tasks.adapter.selection.TaskSelectionObserver
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -58,6 +59,47 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val menu: MenuHost = requireActivity()
+
+        menu.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_notes, menu)
+
+                val searchItem = menu.findItem(R.id.searchView)
+                val searchView = searchItem.actionView as SearchView
+
+                searchView.setOnQueryTextListener(this@NotesFragment)
+
+                searchView.setOnSearchClickListener {
+                    // TODO 1 NOT IMPLEMENTED
+                }
+
+                searchView.setOnCloseListener {
+                    // TODO 2 NOT IMPLEMENTED
+                    false
+                }
+            }
+
+            override fun onMenuItemSelected(item: MenuItem): Boolean {
+                return when (item.itemId) {
+                    R.id.deleteNote -> {
+                        tracker?.let { notesSelected ->
+                            val iterator = notesSelected.selection.toMutableList().iterator()
+                            while (iterator.hasNext()) {
+                                val noteModel = iterator.next()
+                                viewModel.delete(noteModel)
+                                iterator.remove()
+                                notesSelected.clearSelection()
+                            }
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
 
         adapter = NotesAdapter()
         setAdapterClickListener(adapter)
@@ -128,26 +170,6 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
         adapter.tracker = tracker
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.menu_notes, menu)
-
-        val searchItem = menu.findItem(R.id.searchView)
-        val searchView = searchItem.actionView as SearchView
-
-        searchView.setOnQueryTextListener(this)
-
-        searchView.setOnSearchClickListener {
-            // TODO 1 NOT IMPLEMENTED
-        }
-
-        searchView.setOnCloseListener {
-            // TODO 2 NOT IMPLEMENTED
-            false
-        }
-    }
-
     override fun onQueryTextSubmit(query: String?): Boolean {
         onQueryTextChange(query)
         return true
@@ -158,24 +180,6 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
             searchNotesByTitle(newText)
         }
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.deleteNote -> {
-                tracker?.let { notesSelected ->
-                    val iterator = notesSelected.selection.toMutableList().iterator()
-                    while (iterator.hasNext()) {
-                        val noteModel = iterator.next()
-                        viewModel.delete(noteModel)
-                        iterator.remove()
-                        notesSelected.clearSelection()
-                    }
-                }
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun searchNotesByTitle(query: String) {

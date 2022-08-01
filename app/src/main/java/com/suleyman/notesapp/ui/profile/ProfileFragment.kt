@@ -15,7 +15,8 @@ const val RC_SIGN_IN = "sign_in"
 
 class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListener {
 
-    private lateinit var binding: FragmentProfileBinding
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +33,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentProfileBinding.bind(view)
+        _binding = FragmentProfileBinding.bind(view)
 
         binding.apply {
             btnAuth.setOnClickListener(this@ProfileFragment)
@@ -59,5 +60,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), View.OnClickListene
             }
         }
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        _binding = null
     }
 }

@@ -12,11 +12,9 @@ class NotesApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         startKoin {
             androidContext(this@NotesApp)
             modules(listOf(databaseModule, notesUseCasesModule, taskUseCasesModule, viewModelModule))
         }
     }
-
 }

@@ -9,7 +9,7 @@ interface OnNoteClickListener {
 
 interface OnTaskClickListener {
     fun onTaskClick(task: TaskEntity, index: Int)
-    fun onTaskChecked(task: TaskEntity)
+    fun onTaskChecked(task: TaskEntity, index: Int)
 }
 
 interface TaskSaveHandle {

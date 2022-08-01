@@ -2,17 +2,18 @@ package com.suleyman.notesapp.other
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+import java.util.*
 
 object DateFormatter {
 
+    private var dateFormat = SimpleDateFormat("HH:mm-yyyy", Locale.ROOT)
+    private val timeFormat = SimpleDateFormat("hh:mm", Locale.ROOT)
+
     @SuppressLint("SimpleDateFormat")
     fun dateFromString(timeInMillis: Long, formatType: FormatType): String {
-        val dateFormater = SimpleDateFormat("HH:mm-yyyy")
-        val timeFormater = SimpleDateFormat("hh:mm")
-
-        return when(formatType) {
-             FormatType.Date -> dateFormater.format(timeInMillis)
-             FormatType.Time -> timeFormater.format(timeInMillis)
+        return when (formatType) {
+            FormatType.Date -> dateFormat.format(timeInMillis)
+            FormatType.Time -> timeFormat.format(timeInMillis)
         }
     }
 

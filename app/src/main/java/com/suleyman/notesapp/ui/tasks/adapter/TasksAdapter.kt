@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Index
 import com.suleyman.notesapp.databinding.TaskItemBinding
 import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.other.MutListTasks
 import com.suleyman.notesapp.other.OnTaskClickListener
+import okhttp3.internal.concurrent.Task
 
 class TasksAdapter: RecyclerView.Adapter<TaskHolder>() {
 
@@ -23,6 +25,10 @@ class TasksAdapter: RecyclerView.Adapter<TaskHolder>() {
         this.tasks.addAll(tasks)
         notifyDataSetChanged()
     }
+
+    fun getIndexById(id: Long) = tasks.indexOf(
+        tasks.first { it.id == id }
+    )
 
     fun deleteTask(task: TaskEntity, position: Int) {
         tasks.remove(task)

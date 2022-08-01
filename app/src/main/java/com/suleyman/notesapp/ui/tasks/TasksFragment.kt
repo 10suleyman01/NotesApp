@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -34,7 +35,8 @@ private const val INDEX = "index"
 
 class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
 
-    private lateinit var binding: FragmentListBinding
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: TasksAdapter
 
     private val createTaskDialog = CreateTaskDialogFragment()
@@ -50,7 +52,7 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentListBinding.bind(view)
+        _binding = FragmentListBinding.bind(view)
         adapter = TasksAdapter()
         adapter.listener = taskClickListener()
 
@@ -81,6 +83,9 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
                     }
                     is TasksViewModel.TasksEvent.Deleted -> {
                         viewModel.tasks()
+                    }
+                    is TasksViewModel.TasksEvent.Completed -> {
+
                     }
                     else -> TasksViewModel.TasksEvent.None
                 }
@@ -135,14 +140,15 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
             createTaskDialog.show(parentFragmentManager, CreateTaskDialogFragment.TAG)
         }
 
-        override fun onTaskChecked(task: TaskEntity) {
-            viewModel.newOrUpdate(task)
+        override fun onTaskChecked(task: TaskEntity, index: Int) {
+            val oldIndex = adapter.getIndexById(task.id)
+            viewModel.completed(task, index)
         }
     }
 
     private fun createTaskListener() = object : TaskSaveHandle {
         override fun saveTask(task: TaskEntity) {
-            viewModel.newOrUpdate(task)
+            viewModel.new(task)
         }
 
         override fun deleteTask(task: TaskEntity, index: Int) {
@@ -159,5 +165,11 @@ class TasksFragment : Fragment(R.layout.fragment_list), View.OnClickListener {
             }
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        _binding = null
     }
 }

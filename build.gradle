@@ -3,11 +3,11 @@
 buildscript {
 
     ext {
-        room_version = "2.4.1"
-        activity_ktx = "1.4.0"
-        fragment_ktx = "1.4.1"
+        room_version = "2.4.3"
+        activity_ktx = "1.5.1"
+        fragment_ktx = "1.5.1"
         koin_version= "3.1.5"
-        coroutine_android = "1.5.2"
+        coroutine_android = "1.6.3"
         nav_version = "2.4.2"
         okhttp_version = "4.9.3"
         work_version = "2.7.1"

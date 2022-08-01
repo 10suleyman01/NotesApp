@@ -25,7 +25,7 @@ class TaskHolder(
 
             cbChecked.setOnCheckedChangeListener { _, isChecked ->
                 taskEntity.completed = isChecked
-                listener.onTaskChecked(taskEntity)
+                listener.onTaskChecked(taskEntity, adapterPosition)
             }
         }
         item.holder.setOnClickListener {

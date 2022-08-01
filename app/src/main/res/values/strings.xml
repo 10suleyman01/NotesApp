@@ -18,4 +18,5 @@
     <string name="input_task_name">Введите имя задачи</string>
     <string name="remind">Напомнить</string>
     <string name="bookmark">Избранное</string>
+    <string name="archive">Архив</string>
 </resources>

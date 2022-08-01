@@ -5,9 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.suleyman.notesapp.domain.entity.TaskEntity
 import com.suleyman.notesapp.domain.usecase.tasks.WrapperTasksUseCases
 import com.suleyman.notesapp.other.ListTasks
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,13 +18,18 @@ class TasksViewModel(
     var states = _states.asStateFlow()
 
     fun tasks() = loadingEvent {
-        val tasks = useCases.getListTasksUseCase.execute()
+        val tasks = useCases.getListTasksUseCase.execute(isSorted = true)
         _states.value = TasksEvent.GetListTasks(tasks)
     }
 
-    fun newOrUpdate(task: TaskEntity) = viewModelScope.launch {
+    fun new(task: TaskEntity) = viewModelScope.launch {
         useCases.createAndSaveTaskUseCase.execute(task)
         _states.value = TasksEvent.AddNewTask(task)
+    }
+
+    fun completed(task: TaskEntity, index: Int) = viewModelScope.launch {
+        useCases.createAndSaveTaskUseCase.execute(task)
+        _states.value = TasksEvent.Completed(task, index)
     }
 
     fun deleteTask(task: TaskEntity) = viewModelScope.launch {
@@ -52,6 +54,7 @@ class TasksViewModel(
     sealed class TasksEvent {
         object None : TasksEvent()
         object Deleted : TasksEvent()
+        data class Completed(val task: TaskEntity, val index: Int) : TasksEvent()
         data class Loading(val isLoading: Boolean) : TasksEvent()
         data class GetListTasks(val tasks: ListTasks) : TasksEvent()
         data class AddNewTask(val task: TaskEntity) : TasksEvent()

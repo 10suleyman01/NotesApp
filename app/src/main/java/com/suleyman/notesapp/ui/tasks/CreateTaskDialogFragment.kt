@@ -106,7 +106,6 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Напомнить")
             .create()
-
         dialog.show()
     }
 

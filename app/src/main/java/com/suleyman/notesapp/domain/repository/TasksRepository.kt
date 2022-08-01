@@ -10,6 +10,8 @@ interface TasksRepository {
 
     suspend fun getTaskById(id: Long): TaskEntity
 
+    suspend fun sortByCompleted(): ListTasks
+
     suspend fun insert(task: TaskEntity)
 
     suspend fun delete(task: TaskEntity)
