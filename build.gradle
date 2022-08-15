@@ -5,7 +5,7 @@ buildscript {
     ext {
         room_version = "2.4.3"
         activity_ktx = "1.5.1"
-        fragment_ktx = "1.5.1"
+        fragment_ktx = "1.5.2"
         koin_version= "3.1.5"
         coroutine_android = "1.6.3"
         nav_version = "2.4.2"

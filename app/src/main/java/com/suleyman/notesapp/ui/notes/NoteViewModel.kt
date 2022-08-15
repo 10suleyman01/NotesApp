@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.domain.usecase.notes.WrapperNotesUseCases
 import com.suleyman.notesapp.other.ListNotes
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,17 +22,17 @@ class NoteViewModel(
         _states.value = NotesEvent.NewNote(note)
     }
 
-    fun delete(note: NoteEntity) = loadingEvent {
+    fun delete(note: NoteEntity) = launchWithLoading {
         useCases.deleteNoteUseCase.execute(note)
         _states.value = NotesEvent.Deleted
     }
 
-    fun search(title: String) = loadingEvent {
+    fun search(title: String) = launchWithLoading {
         val searchedNotes = useCases.searchNotesUseCase.execute(title)
         _states.value = NotesEvent.GetNotes(searchedNotes)
     }
 
-    fun notes() = loadingEvent {
+    fun notes() = launchWithLoading {
         loadNotes()
     }
 
@@ -42,12 +41,9 @@ class NoteViewModel(
         _states.value = NotesEvent.GetNotes(notes)
     }
 
-    private fun loadingEvent(delayInMillis: Long = 0, body: suspend () -> Unit) =
+    private fun launchWithLoading(body: suspend () -> Unit) =
         viewModelScope.launch {
             _states.value = NotesEvent.Loading(true)
-            if (delayInMillis > 0) {
-                delay(delayInMillis)
-            }
             body()
             _states.value = NotesEvent.Loading(false)
         }

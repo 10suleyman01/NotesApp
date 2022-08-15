@@ -8,7 +8,7 @@ class NoteItemKeyProvider(
     private val adapter: NotesAdapter
 ): ItemKeyProvider<NoteEntity>(SCOPE_CACHED) {
 
-    override fun getKey(position: Int): NoteEntity? {
+    override fun getKey(position: Int): NoteEntity {
         return adapter.notes[position]
     }
 

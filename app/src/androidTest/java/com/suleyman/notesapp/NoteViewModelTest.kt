@@ -9,19 +9,10 @@ import org.mockito.Mockito.verify
 
 class NoteViewModelTest {
 
-
     @Test
     fun testNoteSave() {
 
-        val wrapperUseCases = Mockito.mock(WrapperNotesUseCases::class.java)
-
-        val noteViewModel = NoteViewModel(wrapperUseCases)
-
-        val note = NoteEntity(0, "Test", "Test text", 0, false)
-
-        noteViewModel.save(note)
 
     }
-
 
 }

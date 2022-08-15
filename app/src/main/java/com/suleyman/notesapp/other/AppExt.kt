@@ -17,10 +17,14 @@ fun AppCompatEditText.text(): String {
     return text.toString()
 }
 
+fun AppCompatEditText.textWithTrim(): String {
+    return text.toString().trim()
+}
+
 fun AppCompatEditText.clearText() {
     setText("")
 }
 
 fun logDebug(msg: String) {
-    Log.d("DEBUGER", msg)
+    Log.d("DEBUGGER", msg)
 }

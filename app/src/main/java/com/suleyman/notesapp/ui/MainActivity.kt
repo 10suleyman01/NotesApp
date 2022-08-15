@@ -26,12 +26,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.container)
 
         val appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.tasksFragment, R.id.notesFragment, R.id.profileFragment))
+            AppBarConfiguration(setOf(R.id.notesFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.apply {
-            bottomNavBar.setupWithNavController(navController)
-        }
     }
 
     fun getToolbar(): Toolbar {

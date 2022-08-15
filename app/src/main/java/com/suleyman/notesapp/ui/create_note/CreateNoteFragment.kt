@@ -6,9 +6,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,9 +18,9 @@ import com.suleyman.notesapp.R
 import com.suleyman.notesapp.databinding.FragmentCreateNoteBinding
 import com.suleyman.notesapp.domain.entity.NoteEntity
 import com.suleyman.notesapp.other.text
+import com.suleyman.notesapp.other.textWithTrim
 import com.suleyman.notesapp.ui.MainActivity
 import com.suleyman.notesapp.ui.notes.NotesFragmentArgs
-import kotlinx.coroutines.launch
 
 const val RESULT_NOTE_KEY = "note_key"
 const val NOTE = "note"
@@ -32,13 +34,67 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
     private var isEditNoteMode = false
     private var isBookmark = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val menu: MenuHost = requireActivity()
+
+        menu.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
+                inflater.inflate(R.menu.menu_create_note, menu)
+
+                val item = menu.findItem(R.id.bookmark)
+                setBookmarked(item)
+            }
+
+            override fun onMenuItemSelected(item: MenuItem): Boolean {
+                when (item.itemId) {
+                    R.id.save -> {
+                        if (isEditNoteMode) {
+                            val note = args.note
+                            note?.let {
+                                note.title = binding.etTitle.textWithTrim()
+                                note.text = binding.etText.textWithTrim()
+                                setNoteResult(note)
+                                saveAndBack()
+                            }
+                            return true
+                        }
+
+                        val title = binding.etTitle.textWithTrim()
+                        val text = binding.etText.textWithTrim()
+
+                        if (title.isNotEmpty() && text.isNotEmpty()) {
+                            val note =
+                                NoteEntity(0, title, text, System.currentTimeMillis(), isBookmark)
+                            setNoteResult(note)
+                            saveAndBack()
+                        }
+                    }
+
+                    R.id.bookmark -> {
+                        if (isEditNoteMode) {
+                            val note = args.note
+                            note?.let {
+                                it.isBookmarked = !it.isBookmarked
+                            }
+                            setBookmarked(item)
+                        } else {
+                            isBookmark = !isBookmark
+                            item.setIcon(
+                                if (isBookmark) R.drawable.ic_round_bookmark_24 else
+                                    R.drawable.ic_baseline_bookmark_border_24
+                            )
+                        }
+                    }
+
+                    android.R.id.home -> {
+                        (activity as MainActivity).onBackPressed()
+                    }
+                }
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         _binding = FragmentCreateNoteBinding.bind(view)
 
@@ -59,63 +115,6 @@ class CreateNoteFragment : Fragment(R.layout.fragment_create_note) {
             etTitle.setText(note.title)
             etText.setText(note.text)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-
-        inflater.inflate(R.menu.menu_create_note, menu)
-
-        val item = menu.findItem(R.id.bookmark)
-        setBookmarked(item)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.save -> {
-                if (isEditNoteMode) {
-                    val note = args.note
-                    note?.let {
-                        note.title = binding.etTitle.text()
-                        note.text = binding.etText.text()
-                        setNoteResult(note)
-                        saveAndBack()
-                    }
-                    return true
-                }
-
-                val title = binding.etTitle.text()
-                val text = binding.etText.text()
-
-                if (title.isNotEmpty() && text.isNotEmpty()) {
-                    val note = NoteEntity(0, title, text, System.currentTimeMillis(), isBookmark)
-                    setNoteResult(note)
-                    saveAndBack()
-                }
-            }
-
-            R.id.bookmark -> {
-                if (isEditNoteMode) {
-                    val note = args.note
-                    note?.let {
-                        it.isBookmarked = !it.isBookmarked
-                    }
-                    setBookmarked(item)
-                } else {
-                    isBookmark = !isBookmark
-                    item.setIcon(
-                        if (isBookmark) R.drawable.ic_round_bookmark_24 else
-                            R.drawable.ic_baseline_bookmark_border_24
-                    )
-                }
-            }
-
-            android.R.id.home -> {
-                (activity as MainActivity).onBackPressed()
-            }
-        }
-        return true
     }
 
     private fun setBookmarked(item: MenuItem) {

@@ -43,11 +43,6 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var adapter: NotesAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,15 +65,6 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
                 val searchView = searchItem.actionView as SearchView
 
                 searchView.setOnQueryTextListener(this@NotesFragment)
-
-                searchView.setOnSearchClickListener {
-                    // TODO 1 NOT IMPLEMENTED
-                }
-
-                searchView.setOnCloseListener {
-                    // TODO 2 NOT IMPLEMENTED
-                    false
-                }
             }
 
             override fun onMenuItemSelected(item: MenuItem): Boolean {
@@ -106,6 +92,21 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
         binding.apply {
             rvItems.layoutManager = LinearLayoutManager(requireContext())
+            rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 0 || dy < 0 && fabNew.isShown) {
+                        fabNew.hide()
+                    }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        fabNew.show()
+                    }
+                }
+            })
             rvItems.setHasFixedSize(true)
             rvItems.adapter = adapter
 
@@ -121,7 +122,11 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
             val note = bundle[NOTE] as NoteEntity
             lifecycleScope.launch {
                 if (requestKey == RESULT_NOTE_KEY) {
-                    viewModel.save(note)
+                    if (note.title.isEmpty() && note.text.isEmpty()) {
+                        viewModel.delete(note)
+                    } else {
+                        viewModel.save(note)
+                    }
                 }
             }
         }
@@ -158,7 +163,7 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun initSelectionTracker(rvItems: RecyclerView) {
         tracker = SelectionTracker.Builder(
             SELECTION_NOTES_ID,
-            rvItems,
+            rvItems, // recyclerView
             NoteItemKeyProvider(adapter),
             NoteItemDetailLookup(rvItems),
             StorageStrategy.createParcelableStorage(NoteEntity::class.java),
@@ -166,7 +171,7 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
             SelectionPredicates.createSelectAnything()
         ).build()
 
-        tracker?.addObserver(NotesSelectionObserver(tracker, (activity as MainActivity)))
+        tracker?.addObserver(NotesSelectionObserver(tracker, requireActivity() as MainActivity))
         adapter.tracker = tracker
     }
 
@@ -195,5 +200,4 @@ class NotesFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
     }
-
 }
